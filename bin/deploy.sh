@@ -10,3 +10,4 @@ aws cloudformation deploy \
   --capabilities CAPABILITY_NAMED_IAM \
   --no-fail-on-empty-changeset \
   --parameter-overrides \
+    AwsNamespace="cicd-testing"
