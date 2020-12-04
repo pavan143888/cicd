@@ -1,6 +1,6 @@
 #!/bin/bash
 aws cloudformation package \
-  --template-file dist/template.yaml \
+  --template-file cloudformation/template.yaml \
   --s3-bucket "pr-cicd-pipeline-bucket" \
   --output-template-file cloudformation/template-packaged.yaml
 
