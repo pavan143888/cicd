@@ -7,7 +7,7 @@ phases:
     commands:
       - sed -i -e 's/\r$//' ./cloudformation/buildspec_postbuild.sh
       - sed -i -e 's/\r$//' ./bin/deploy.sh
-      - chmod +x SimpleLambda/cloudformation/buildspec_postbuild.sh
+      - chmod +x ./cloudformation/buildspec_postbuild.sh
       - chmod +x ./bin/deploy.sh
   build:
     commands:
