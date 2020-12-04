@@ -5,6 +5,34 @@ Parameters:
     Type: String
     Description: Used to generate namespaced AWS resources
 Resources:
+  ApiGatewayRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: apigateway.amazonaws.com
+      Path: "/"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonApiGatewayPushToCloudWatchLogs
+  ApiGatewayAccount:
+    Type: AWS::ApiGateway::Account
+    Properties:
+      CloudWatchRoleArn: !GetAtt ApiGatewayRole.Arn
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    DependsOn:
+      - ApiGatewayAccount
+    Properties:
+      StageName: !Sub "development"
+      Name: monsoon-development-mws-simulator
+      Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
   LambdaFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -29,3 +57,16 @@ Resources:
                 - "ssm:GetParameters"
                 - "ssm:GetParameter"
               Resource: '*'
+      Events:
+        Post:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+            RestApiId:
+              Ref: ApiGateway
+Outputs:
+  Url:
+    Value: !Sub "https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/development/"
+    Export:
+      Name: !Sub ${AWS::StackName}-url
