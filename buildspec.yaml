@@ -5,10 +5,10 @@ phases:
     runtime-versions:
       nodejs: 10
     commands:
-      - sed -i -e 's/\r$//' SimpleLambda/cloudformation/buildspec_postbuild.sh
-      - sed -i -e 's/\r$//' SimpleLambda/bin/deploy.sh
+      - sed -i -e 's/\r$//' ./cloudformation/buildspec_postbuild.sh
+      - sed -i -e 's/\r$//' ./bin/deploy.sh
       - chmod +x SimpleLambda/cloudformation/buildspec_postbuild.sh
-      - chmod +x SimpleLambda/bin/deploy.sh
+      - chmod +x ./bin/deploy.sh
   build:
     commands:
       - cd SimpleLambda
