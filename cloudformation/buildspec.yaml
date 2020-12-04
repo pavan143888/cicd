@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - sed -i -e 's/\r$//' SimpleLambda/cloudformation/buildspec_postbuild.sh
+      - sed -i -e 's/\r$//' SimpleLambda/bin/deploy.sh
+      - chmod +x SimpleLambda/cloudformation/buildspec_postbuild.sh
+      - chmod +x SimpleLambda/bin/deploy.sh
+  build:
+    commands:
+      - cd SimpleLambda
+      - npm i
+      - npm run tsc
+      - cp -R ./node_modules ./dist
+  post_build:
+    commands:
+      - ./cloudformation/buildspec_postbuild.sh
