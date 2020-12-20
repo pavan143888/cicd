@@ -9,7 +9,7 @@ const hello: Handler = (event: any, context: Context, callback: Callback) => {
     const response: HelloResponse = {
         statusCode: 200,
         body: JSON.stringify({
-            message: "This is for testing 13"
+            message: "This is for testing 135"
         })
     };
 
